@@ -1,133 +1,175 @@
-#事件處理
-def info():
-    messagebox.showinfo("程式資訊","YT2file\n\nAuthor: BlueBoy\nVersion: 1.0 (2024.05.18)")
-
-def rbVideo():
-    global getvideo
-    getvideo=videorb.get()
-
-def clickDown():
-    global getvideo,strftype,listradio
-    if url.get()=="":
-        messagebox.showwarning("警告","網址欄尚未輸入!")
-        return
-    pathdir=filedialog.askdirectory(title='選擇下載位置',initialdir='download')
-    if pathdir=="":
-        return
-    success=False
-    try:
-        yt=YouTube(url.get())
-        dlcheck=tk.messagebox.askquestion('確認下載資訊','下載YT影片名稱:\n'+yt.title+'\n\n確定下載?')
-        if dlcheck=='yes':
-            if DLname.get()=="":
-                Tname=yt.title
-            else:
-                Tname=DLname.get()
-            Fname=""
-            for f in Tname:
-                if f in ['\\','/',':','*','?','"','<','>','|']:
-                    Fname+=" "
-                else:
-                    Fname+=f
-            if getvideo=="1080p" or getvideo=="2160p":
-                yt.streams.filter(subtype='mp4',res=getvideo,progressive=False).first().download(output_path=pathdir,filename='video.mp4')
-                yt.streams.filter(subtype='mp4',type="audio",progressive=False).last().download(output_path=pathdir,filename='audio.mp4')
-                success=True
-                mix(pathdir,Fname)
-            elif getvideo=="music":
-                yt.streams.filter(subtype='mp4',type="audio",progressive=False).last().download(output_path=pathdir,filename=Fname+'.mp3')
-            else:
-                yt.streams.filter(subtype='mp4',res=getvideo,progressive=True).first().download(output_path=pathdir,filename=Fname+'.mp4')
-        else:
-            return
-    except:
-        if not success:
-            time.sleep(1)
-            messagebox.showerror("影片無法下載！","請確認網址是否正確、影片及選取之格式是否存在，或再重新試一次。")
-        else:
-            messagebox.showerror("輸出錯誤","影片影像與音訊無法整合")
-    else:
-        messagebox.showinfo("","下載完成！")
-        os.startfile(pathdir)
-
-def mix(pathdir,Fname):
-    try:
-        os.chdir(pathdir)
-        vedio=VideoFileClip('video.mp4')
-        audio=AudioFileClip('audio.mp4')
-        output=vedio.set_audio(audio)
-        output.write_videofile(Fname+'.mp4',temp_audiofile='temp_audio.mp4',remove_temp=True)
-        os.remove('video.mp4')
-        os.remove('audio.mp4')
-    except:
-        os.remove('video.mp4')
-        os.remove('audio.mp4')
-        os.remove('temp_audio.mp4')
-
 #功能匯入
-from pytube import YouTube
 import tkinter as tk
 from tkinter import filedialog, messagebox
-import os,time
+from pytube import YouTube, exceptions
 from moviepy.editor import VideoFileClip, AudioFileClip
-if not os.path.isdir('download'):
-    os.makedirs('download')
+import os
+import threading
+
+#事件處理
+def info():
+    messagebox.showinfo("程式資訊","YT2file\n\nAuthor: BlueBoy\nVersion: 1.1 (2024.05.19)")
+
+def get_resolution():
+    global resolution
+    resolution = type_var.get()
+
+def click_download():
+    global resolution
+    if url.get() == "":
+        messagebox.showwarning("警告","網址欄尚未輸入!")
+        return
+    pathdir = filedialog.askdirectory(title="選擇下載位置",initialdir="download")
+    if pathdir == "":
+        return
+    
+    def show_progress_window():
+        progress_window.deiconify()
+        progress_window.lift(main_window)
+
+    def download_video():
+        try:
+            yt = YouTube(url.get())
+            dlcheck = tk.messagebox.askquestion("確認下載資訊",f"下載YT影片名稱:\n{yt.title}\n\n確定下載?")
+            if dlcheck == "yes":
+                threading.Thread(target=show_progress_window).start()
+
+                name_temp = download_name.get() if download_name.get() else yt.title
+                file_name = ''.join([' ' if f in ['\\', '/', ':', '*', '?', '"', '<', '>', '|'] else f for f in name_temp])
+                
+                if resolution in ["1080p", "2160p"]:
+                    yt.streams.filter(subtype="mp4", res=resolution, progressive=False).first().download(output_path=pathdir, filename="video_temp.mp4")
+                    yt.streams.filter(subtype="mp4", type="audio", progressive=False).last().download(output_path=pathdir, filename="audio_temp.mp4")
+                    mix(pathdir,file_name)
+                elif resolution == "music":
+                    yt.streams.filter(subtype="mp4", type="audio", progressive=False).last().download(output_path=pathdir, filename=f"{file_name}.mp3")
+                else:
+                    yt.streams.filter(subtype="mp4", res=resolution, progressive=True).first().download(output_path=pathdir, filename=f"{file_name}.mp4")
+            else:
+                return
+        except exceptions.AgeRestrictedError:
+            messagebox.showerror("影片無法下載", "此影片有年齡限制，需要登入才能下載。\n（登入下載功能尚未實現）")
+        except exceptions.RegexMatchError:
+            messagebox.showerror("找不到影片", "請確認網址是否正確、該影片是否存在，並重新試一次")
+        except AttributeError:
+            messagebox.showerror("找不到格式", f"請確認選取之格式({resolution})是否存在，並重新試一次")
+        except Exception as e:
+            messagebox.showerror("下載失敗", f"錯誤訊息: {e}")
+        else:
+            os.startfile(pathdir)
+            messagebox.showinfo("下載成功", "影片下載完成！")
+        finally:
+            if progress_window.winfo_exists():
+                progress_window.withdraw()
+    
+    threading.Thread(target=download_video).start()
+
+def mix(pathdir,file_name):
+    try:
+        os.chdir(pathdir)
+        video = VideoFileClip("video_temp.mp4")
+        audio = AudioFileClip("audio_temp.mp4")
+        output = video.set_audio(audio)
+        output.write_videofile(
+            f"{file_name}.mp4",
+            temp_audiofile="temp_audiofile.mp4",
+            remove_temp=True,
+        )
+        os.remove("video_temp.mp4")
+        os.remove("audio_temp.mp4")
+    except Exception as e:
+        for temp_file in ["video_temp.mp4", "audio_temp.mp4", "temp_audiofile.mp4"]:
+            if os.path.exists(temp_file):
+                os.remove(temp_file)
+        raise e
+
+#創建下載資料夾
+if not os.path.isdir("download"):
+    os.makedirs("download")
 
 #主視窗設定
-mainw=tk.Tk()
-mainw.geometry("430x250")
-mainw.resizable(0,0)
-mainw.title("YT2file")
-mainw.iconbitmap('icon.ico')
-mainw['bg']='#e0ff2c'
-getvideo="720p"
-videorb=tk.StringVar()
-url=tk.StringVar()
-DLname=tk.StringVar()
+main_window = tk.Tk()
+main_window.geometry("430x250")
+main_window.resizable(0, 0)
+main_window.title("YT2file")
+main_window.iconbitmap("icon.ico")
+main_window["bg"] = "#e0ff2c"
+
+#全域變數
+resolution = "720p"
+type_var = tk.StringVar()
+url = tk.StringVar()
+download_name = tk.StringVar()
 
 #網址列
-labelUrl=tk.Label(mainw,text="Youtube網址： ",bg='#e0ff2c')
-labelUrl.place(x=10,y=20)
-entryUrl=tk.Entry(mainw,textvariable=url)
-entryUrl.config(width=45)
-entryUrl.place(x=100,y=20)
+label_url = tk.Label(main_window, text="Youtube網址：", bg="#e0ff2c")
+label_url.place(x=10, y=20)
+
+entry_url = tk.Entry(main_window, textvariable=url)
+entry_url.config(width=45)
+entry_url.place(x=100, y=20)
 
 #檔案名稱列
-labelName=tk.Label(mainw,text="檔案名稱： ",bg='#e0ff2c')
-labelName.place(x=34,y=50)
-entryName=tk.Entry(mainw,textvariable=DLname)
-entryName.config(width=45)
-entryName.place(x=100,y=50)
+label_filename = tk.Label(main_window, text="檔案名稱：", bg="#e0ff2c")
+label_filename.place(x=34, y=50)
+
+entry_filename = tk.Entry(main_window, textvariable=download_name)
+entry_filename.config(width=45)
+entry_filename.place(x=100, y=50)
 
 #下載按鈕
-downloadbutton=tk.Button(mainw,text="下載",command=clickDown)
-downloadbutton.place(x=240,y=200)
+download_button = tk.Button(main_window, text="下載", command=click_download)
+download_button.place(x=240,y=200)
 
-#品質選擇
-labelQ=tk.Label(mainw,text="類型選擇： ",bg='#e0ff2c')
-labelQ.place(x=34,y=80)
-rbmusic=tk.Radiobutton(mainw,text=('音訊, mp3'),variable=videorb,value='music',command=rbVideo,bg='#e0ff2c')
-rbmusic.place(x=100,y=80)
-rb360=tk.Radiobutton(mainw,text=('360p, mp4'),variable=videorb,value='360p',command=rbVideo,bg='#e0ff2c')
-rb360.place(x=200,y=80)
-rb480=tk.Radiobutton(mainw,text=('480p, mp4'),variable=videorb,value='480p',command=rbVideo,bg='#e0ff2c')
-rb480.place(x=300,y=80)
-rb720=tk.Radiobutton(mainw,text=('720p, mp4'),variable=videorb,value='720p',command=rbVideo,bg='#e0ff2c')
-rb720.place(x=100,y=105)
-rb720.select()
-rb1080=tk.Radiobutton(mainw,text=('1080p, mp4'),variable=videorb,value='1080p',command=rbVideo,bg='#e0ff2c')
-rb1080.place(x=200,y=105)
-rb2160=tk.Radiobutton(mainw,text=('2160p, mp4'),variable=videorb,value='2160p',command=rbVideo,bg='#e0ff2c')
-rb2160.place(x=300,y=105)
+#類型選擇區
+label_type = tk.Label(main_window, text="類型選擇：", bg="#e0ff2c")
+label_type.place(x=34,y=80)
+
+type_music = tk.Radiobutton(main_window, text=("音訊, mp3"), variable=type_var, value="music", command=get_resolution, bg="#e0ff2c")
+type_music.place(x=100,y=80)
+
+type_360p = tk.Radiobutton(main_window, text=("360p, mp4"), variable=type_var, value="360p", command=get_resolution, bg="#e0ff2c")
+type_360p.place(x=200,y=80)
+
+type_480p = tk.Radiobutton(main_window, text=("480p, mp4"), variable=type_var, value="480p", command=get_resolution, bg="#e0ff2c")
+type_480p.place(x=300,y=80)
+
+type_720p = tk.Radiobutton(main_window, text=("720p, mp4"), variable=type_var, value="720p", command=get_resolution, bg="#e0ff2c")
+type_720p.place(x=100,y=105)
+type_720p.select()
+
+type_1080p = tk.Radiobutton(main_window, text=("1080p, mp4"), variable=type_var, value="1080p", command=get_resolution, bg="#e0ff2c")
+type_1080p.place(x=200,y=105)
+
+type_2160p = tk.Radiobutton(main_window, text=("2160p, mp4"), variable=type_var, value="2160p", command=get_resolution, bg="#e0ff2c")
+type_2160p.place(x=300,y=105)
 
 #程式資訊
-infobutton=tk.Button(mainw,text="程式資訊",command=info)
-infobutton.place(x=150,y=200)
+info_button = tk.Button(main_window, text="程式資訊", command=info)
+info_button.place(x=150,y=200)
 
 #注意事項
-labelYT=tk.Label(mainw,text="注意事項： ",fg='#ff0000',bg='#e0ff2c')
-labelYT.place(x=34,y=135)
-labelYTName=tk.Message(mainw,text="1.務必確認該影片支援選取之畫質。\n2.影片下載需時較長(尤其1080p與2160p)，請耐心等候！\n3.檔案名稱非必填，預設為原影片於YT之名稱。",justify='left',width=310,anchor='w',fg='#ff0000',bg='#e0ff2c')
-labelYTName.place(x=95,y=135)
+label_notice = tk.Label(main_window, text="注意事項：", fg="#ff0000", bg="#e0ff2c")
+label_notice.place(x=34, y=135)
 
-mainw.mainloop()
+notice_content = tk.Message(
+    main_window,
+    text="1.務必確認該影片支援選取之類型。\n2.影片下載需時較長(尤其1080p與2160p)，請耐心等候！\n3.檔案名稱非必填，預設為原影片於YT之名稱。",
+    justify="left",
+    width=310,
+    anchor="w",
+    fg="#ff0000",
+    bg="#e0ff2c"
+)
+notice_content.place(x=95, y=135)
+
+# 下載中視窗
+progress_window = tk.Toplevel(main_window)
+progress_window.iconbitmap("icon.ico")
+progress_window.geometry("300x100")
+progress_window.resizable(0, 0)
+progress_window.withdraw()
+label_downloading = tk.Label(progress_window, text="影片下載中，請稍後...")
+label_downloading.place(x=95, y=30)
+
+main_window.mainloop()
