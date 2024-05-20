@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YT2file: Report Issue</title>
+    <style>
+        h1{
+            font-size: 30px;
+        }
+        h2{
+            font-size: 25px;
+        }
+        input, textarea, button, p{
+            font-size: 20px;
+        }
+        h2, p{
+            margin: 0;
+        }
+        input, textarea, button{
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>YT2file: Report Issue</h1>
+    <p>如果您有GitHub帳號，<a href="https://github.com/BlueBoy247/YT2file/issues/new?assignees=BlueBoy247&labels=bug&projects=&template=問題反饋.md&title=問題反饋">請按此回報問題</a>，若無則請填寫下方表單</p>
+    <p style="color:red; margin-bottom: 20px;">標記*為必填</p>
+    <form method="POST" action="https://forms.un-static.com/forms/cf48f9f3b998d3bd06e0eb5e83de6582fa949b75">
+        <input type="hidden" name="project" value="YT2file">
+        <input type="hidden" name="title" value="Bug Report">
+        
+        <h2>說明問題 *</h2>
+        <p>請簡單明確地描述你遇到的狀況。</p>
+        <input type="text" name="Describe_the_bug" size="50" required>
+      
+        <h2>操作流程 *</h2>
+        <p>請說明您遇到錯誤前的操作流程。</p>
+        <textarea name="To_reproduce" rows="6" cols="50" required>
+e.g.
+1. 前往'...'
+2. 點選'....'
+3. 下滑至'....'
+4. 發生問題
+        </textarea>
+      
+        <h2>預期結果 *</h2>
+        <p>請簡單明確地說明原本預期應該發生什麼。（如：應該開啟資料夾）</p>
+        <textarea name="Expected_behavior" rows="4" cols="50" required></textarea>
+      
+        <h2>電腦裝置資訊 *</h2>
+        <p>請完整填寫下列資訊。</p>
+        <textarea name="Desktop" rows="4" cols="50" required>
+ - 作業系統： [e.g. iOS]
+ - 使用的瀏覽器： [e.g. chrome, safari]
+ - 程式版本： [e.g. 1.0.0]
+        </textarea>
+      
+        <h2>電子郵件</h2>
+        <p>若您想收到回覆，請留下您的電子郵件，我們會在確認狀況或修復完成後通知您。</p>
+        <input type="email" name="email" id="email" size="50">
+      
+        <h2>備註</h2>
+        <p>若完成上述問題後仍無法完整描述您遇到的問題，或者無法完整提供您願意提供之資訊，請在此填寫。</p>
+        <textarea name="Additional_context" rows="4" cols="50"></textarea>
+        <br>
+        <button type="submit">提交</button>
+    </form>
+</body>
+</html>

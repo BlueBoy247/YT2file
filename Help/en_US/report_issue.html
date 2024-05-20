@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YT2file: Report Issue</title>
+    <style>
+        h1{
+            font-size: 30px;
+        }
+        h2{
+            font-size: 25px;
+        }
+        input, textarea, button, p{
+            font-size: 20px;
+        }
+        h2, p{
+            margin: 0;
+        }
+        input, textarea, button{
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>YT2file: Report Issue</h1>
+    <p>If you have GitHub account, <a href="https://github.com/BlueBoy247/YT2file/issues/new?assignees=BlueBoy247&labels=bug&projects=&template=bug_report.md&title=Bug+report">please click here to report issue</a>, if not, please fill in the following form.</p>
+    <p style="color:red; margin-bottom: 20px;">* is required</p>
+    <form method="POST" action="https://forms.un-static.com/forms/cf48f9f3b998d3bd06e0eb5e83de6582fa949b75">
+        <input type="hidden" name="project" value="YT2file">
+        <input type="hidden" name="title" value="Bug Report">
+        
+        <h2>Describe the bug *</h2>
+        <p>A clear and concise description of what the bug is.</p>
+        <input type="text" name="Describe_the_bug" size="50" required>
+      
+        <h2>To reproduce *</h2>
+        <p>Steps to reproduce the behavior:</p>
+        <textarea name="To_reproduce" rows="6" cols="50" required>
+e.g.
+1. Go to '...'
+2. Click on '....'
+3. Scroll down to '....'
+4. See error
+        </textarea>
+      
+        <h2>Expected behavior *</h2>
+        <p>A clear and concise description of what you expected to happen.</p>
+        <textarea name="Expected_behavior" rows="4" cols="50" required></textarea>
+      
+        <h2>Desktop *</h2>
+        <p>Please complete the following information.</p>
+        <textarea name="Desktop" rows="4" cols="50" required>
+ - OS: [e.g. iOS]
+ - Browser [e.g. chrome, safari]
+ - App Version [e.g. 1.0.0]
+        </textarea>
+      
+        <h2>E-mail</h2>
+        <p>
+            If you would like to receive a response, please leave your email address.<br>
+            We will notify you once we have confirmed the situation or completed the repair.
+        </p>
+        <input type="email" name="email" id="email" size="50">
+      
+        <h2>Additional context</h2>
+        <p>Add any other context about the problem here.</p>
+        <textarea name="Additional_context" rows="4" cols="50"></textarea>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
