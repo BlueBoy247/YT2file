@@ -201,7 +201,6 @@ def open_repository():
     """
     webbrowser.open("https://github.com/BlueBoy247/YT2file")
 
-# 說明-問題回報
 def issue_report():
     """
     選單路徑：說明 > 問題回報
@@ -224,7 +223,6 @@ def issue_report():
     """
     webbrowser.open(f"Help\\{config['SETTINGS']['language']}\\report_issue.html")
 
-# 說明-贊助YT2file
 def donate():
     """
     選單路徑：說明 > 贊助YT2file
@@ -247,7 +245,6 @@ def donate():
     """
     webbrowser.open("https://paypal.me/blueboy2472779")
 
-# 說明-關於
 def info():
     """
     選單路徑：說明 > 關於
@@ -276,7 +273,6 @@ def info():
         "Copyright © 2024 AllenChang\nAll rights reserved."
     )
 
-# 說明-檢查更新
 def check_update():
     """
     選單路徑：說明 > 檢查更新
@@ -318,20 +314,70 @@ def check_update():
 
     threading.Thread(target=checking).start()
 
+def show_progress_window():
+    """
+    顯示下載視窗。
+
+    參數：
+        None
+
+    回傳值:
+        progress_window (tk.Toplevel): 下載視窗
+
+    Creates a progress window for displaying the download progress of a video.
+
+    Parameters:
+        None
+
+    Returns:
+        progress_window (tk.Toplevel): The progress window.
+    """
+    progress_window = tk.Toplevel(main_window)
+    progress_window.title(_("下載中"))
+    progress_window.iconbitmap("icon.ico")
+    progress_window.geometry("300x100")
+    progress_window.resizable(0, 0)
+    progress_window.protocol("WM_DELETE_WINDOW", lambda: None)
+
+    canvas = tk.Canvas(progress_window, width=50, height=50)
+    canvas.pack()
+
+    arc = canvas.create_arc(
+        (15, 15, 35, 35),
+        start=0,
+        extent=90,
+        outline="blue",
+        width=5,
+        style="arc"
+    )
+
+    def animate_arc():
+        while True:
+            for i in range(18):
+                if not canvas.winfo_exists():
+                    return
+                canvas.itemconfig(arc, start=(i * 20) % 360)
+                canvas.update()
+                canvas.after(75)
+
+    threading.Thread(target=animate_arc).start()
+
+    label_downloading = tk.Label(progress_window, text=_("影片下載中，請稍後..."))
+    label_downloading.pack(fill="x")
+
+    return progress_window
+
 def click_download():
     """
     下載YouTube影片。
 
-    Downloads a YouTube video based on the user's input.
+    參數：
+        None
 
-    This function retrieves the resolution selected by the user from the type_menu.
-    It checks if the url entry field is empty and displays a warning message if it is.
-    It then prompts the user to select a download location using a file dialog.
-    If a location is selected, it displays a progress window with an animation.
-    The function then retrieves the YouTube video based on the url entered by the user.
-    It asks for confirmation to proceed with the download and shows the download details.
-    The function handles various exceptions that may occur during the download process.
-    If the download is successful, it displays a success message and opens the download folder.
+    回傳值:
+        None
+
+    Download a YouTube video.
 
     Parameters:
         None
@@ -348,45 +394,6 @@ def click_download():
     if pathdir == "":
         return
 
-    # 顯示下載視窗
-    def show_progress_window():
-        progress_window = tk.Toplevel(main_window)
-        progress_window.title(_("下載中"))
-        progress_window.iconbitmap("icon.ico")
-        progress_window.geometry("300x100")
-        progress_window.resizable(0, 0)
-        progress_window.protocol("WM_DELETE_WINDOW", lambda: None)
-
-        canvas = tk.Canvas(progress_window, width=50, height=50)
-        canvas.pack()
-
-        arc = canvas.create_arc(
-            (15, 15, 35, 35),
-            start=0,
-            extent=90,
-            outline="blue",
-            width=5,
-            style="arc"
-        )
-
-        # 下載中動畫
-        def animate_arc():
-            while True:
-                for i in range(18):
-                    if not canvas.winfo_exists():
-                        return
-                    canvas.itemconfig(arc, start=(i * 20) % 360)
-                    canvas.update()
-                    canvas.after(75)
-
-        threading.Thread(target=animate_arc).start()
-
-        label_downloading = tk.Label(progress_window, text=_("影片下載中，請稍後..."))
-        label_downloading.pack(fill="x")
-
-        return progress_window
-
-    # 取得YouTube影片
     def download_video():
         progress_window = None
         try:
@@ -480,7 +487,7 @@ def mix(pathdir, file_name):
                 os.remove(temp_file)
         raise e
 
-# 讀取config
+# 讀取配置檔 Read config
 config = configparser.ConfigParser()
 if os.path.exists(CONFIG_FILE):
     config.read(CONFIG_FILE)
@@ -495,7 +502,7 @@ _ = lang.gettext
 if not os.path.isdir("download"):
     os.makedirs("download")
 
-# 創建主視窗
+# 創建主視窗 Create main window
 main_window = tk.Tk()
 main_window.geometry("430x250")
 main_window.resizable(0, 0)
@@ -504,7 +511,8 @@ main_window["bg"] = "#e0ff2c"
 if os.path.exists("icon.ico"):
     main_window.iconbitmap("icon.ico")
 
-# 檢查更新
+
+# 檢查更新 Check for update
 try:
     RELEASE_DATE = requests.get(
         f"https://api.github.com/repos/BlueBoy247/YT2file/releases/tags/{VERSION}",
@@ -516,11 +524,11 @@ except requests.ConnectionError:
 else:
     threading.Thread(target=check_update).start()
 
-# 主視窗輸入變數
+# 主視窗輸入變數 Variables for main window
 url = tk.StringVar()
 download_name = tk.StringVar()
 
-# 選單
+# 選單 Menu
 menu = tk.Menu(main_window)
 
 cascade_file = tk.Menu(menu, tearoff=0)
@@ -543,7 +551,7 @@ menu.add_cascade(label=_("檔案"), menu=cascade_file)
 menu.add_cascade(label=_("說明"), menu=cascade_option)
 main_window.config(menu=menu)
 
-# 網址列
+# 網址列 URL entry
 label_url = tk.Label(main_window, text=_("影片網址："), bg="#e0ff2c")
 label_url.grid(column=0, row=0, sticky=tk.W, padx=10, pady=10)
 
@@ -551,7 +559,7 @@ entry_url = tk.Entry(main_window, textvariable=url)
 entry_url.config(width=45)
 entry_url.grid(column=1, row=0, sticky=tk.W, padx=2, pady=10)
 
-# 檔案名稱列
+# 檔案名稱列 Filename entry
 label_filename = tk.Label(main_window, text=_("檔案名稱："), bg="#e0ff2c")
 label_filename.grid(column=0, row=1, sticky=tk.W, padx=10, pady=10)
 
@@ -559,7 +567,7 @@ entry_filename = tk.Entry(main_window, textvariable=download_name)
 entry_filename.config(width=45)
 entry_filename.grid(column=1, row=1, sticky=tk.W, padx=2, pady=10)
 
-# 類型選擇區
+# 類型選擇區 Type selection
 label_type = tk.Label(main_window, text=_("類型選擇："), bg="#e0ff2c")
 label_type.grid(column=0, row=2, sticky=tk.W, padx=10, pady=10)
 
@@ -568,7 +576,7 @@ type_menu = ttk.Combobox(main_window, values=type_list, width=42)
 type_menu.set("720p, mp4")
 type_menu.grid(column=1, row=2, sticky=tk.W, padx=2, pady=10)
 
-# 注意事項
+# 注意事項 Notice
 notice_content = tk.Message(
     main_window,
     text=_("1.務必確認該影片支援選取之類型。\n2.檔案名稱非必填，預設為原影片於YT之名稱。"),
@@ -580,7 +588,7 @@ notice_content = tk.Message(
 )
 notice_content.grid(column=1, row=3, sticky=tk.W, padx=2, pady=10)
 
-# 下載按鈕
+# 下載按鈕 Download button
 download_button = tk.Button(main_window, text=_("下載"), command=click_download, width=15)
 download_button.grid(column=0, row=4, columnspan=2)
 
