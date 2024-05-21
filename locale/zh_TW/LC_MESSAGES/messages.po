@@ -1,0 +1,165 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "程式資訊"
+msgstr "程式資訊"
+
+msgid "更新"
+msgstr "更新"
+
+msgid "問題回報"
+msgstr "問題回報"
+
+msgid "開啟下載資料夾"
+msgstr "開啟下載資料夾"
+
+msgid "結束"
+msgstr "結束"
+
+msgid "警告"
+msgstr "警告"
+
+msgid "網址欄尚未輸入!"
+msgstr "網址欄尚未輸入!"
+
+msgid "選擇下載位置"
+msgstr "選擇下載位置"
+
+msgid "確認下載資訊"
+msgstr "確認下載資訊"
+
+msgid "下載YT影片名稱"
+msgstr "下載YT影片名稱"
+
+msgid "確定下載?"
+msgstr "確定下載?"
+
+msgid "影片無法下載"
+msgstr "影片無法下載"
+
+msgid "此影片有年齡限制，需要登入才能下載。\n（登入下載功能尚未實現）"
+msgstr "此影片有年齡限制，需要登入才能下載。\n（登入下載功能尚未實現）"
+
+msgid "找不到影片"
+msgstr "找不到影片"
+
+msgid "請確認網址是否正確、該影片是否存在，並重新試一次。"
+msgstr "請確認網址是否正確、該影片是否存在，並重新試一次。"
+
+msgid "找不到格式"
+msgstr "找不到格式"
+
+msgid "您所選的類型"
+msgstr "您所選的類型"
+
+msgid "不存在。"
+msgstr "不存在。"
+
+msgid "下載失敗"
+msgstr "下載失敗"
+
+msgid "錯誤訊息"
+msgstr "錯誤訊息"
+
+msgid "下載成功"
+msgstr "下載成功"
+
+msgid "影片下載完成！"
+msgstr "影片下載完成！"
+
+msgid "連線失敗"
+msgstr "連線失敗"
+
+msgid "請檢查本裝置是否已連線至網路！"
+msgstr "請檢查本裝置是否已連線至網路！"
+
+msgid "類型選擇："
+msgstr "類型選擇："
+
+msgid "音訊, mp3"
+msgstr "音訊, mp3"
+
+msgid "360p, mp4"
+msgstr "360p, mp4"
+
+msgid "480p, mp4"
+msgstr "480p, mp4"
+
+msgid "720p, mp4"
+msgstr "720p, mp4"
+
+msgid "1080p, mp4"
+msgstr "1080p, mp4"
+
+msgid "2160p, mp4"
+msgstr "2160p, mp4"
+
+msgid "注意事項："
+msgstr "注意事項："
+
+msgid "1.務必確認該影片支援選取之類型。\n2.檔案名稱非必填，預設為原影片於YT之名稱。"
+msgstr "1.務必確認該影片支援選取之類型。\n2.檔案名稱非必填，預設為原影片於YT之名稱。"
+
+msgid "下載"
+msgstr "下載"
+
+msgid "下載中"
+msgstr "下載中"
+
+msgid "影片下載中，請稍後..."
+msgstr "影片下載中，請稍後..."
+
+msgid "Github Repository"
+msgstr "Github Repository"
+
+msgid "關於"
+msgstr "關於"
+
+msgid "檢查更新"
+msgstr "檢查更新"
+
+msgid "檔案"
+msgstr "檔案"
+
+msgid "說明"
+msgstr "說明"
+
+msgid "影片網址："
+msgstr "影片網址："
+
+msgid "檔案名稱："
+msgstr "檔案名稱："
+
+msgid "版本"
+msgstr "版本"
+
+msgid "發佈時間"
+msgstr "發佈時間"
+
+msgid "新版本已發佈，點擊「是」以更新至最新版本。"
+msgstr "新版本已發佈，點擊「是」以更新至最新版本。"
+
+msgid "最新版本"
+msgstr "最新版本"
+
+msgid "已經是最新版本！"
+msgstr "已經是最新版本！"
+
+msgid "切換語言"
+msgstr "切換語言"
+
+msgid "語言選擇"
+msgstr "語言選擇"
+
+msgid "選擇語言："
+msgstr "選擇語言："
+
+msgid "確認"
+msgstr "確認"
+
+msgid "取消"
+msgstr "取消"
+
+msgid "贊助YT2file"
+msgstr "贊助YT2file"

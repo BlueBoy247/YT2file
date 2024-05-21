@@ -1,0 +1,147 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "程式資訊"
+msgstr "Program Information"
+
+msgid "更新"
+msgstr "Update"
+
+msgid "問題回報"
+msgstr "Report Issue"
+
+msgid "開啟下載資料夾"
+msgstr "Open Download Folder"
+
+msgid "結束"
+msgstr "Exit"
+
+msgid "警告"
+msgstr "Warning"
+
+msgid "網址欄尚未輸入!"
+msgstr "URL field is empty!"
+
+msgid "選擇下載位置"
+msgstr "Choose Download Location"
+
+msgid "確認下載資訊"
+msgstr "Confirm Download Information"
+
+msgid "下載YT影片名稱"
+msgstr "Video Title on YouTube"
+
+msgid "確定下載?"
+msgstr "Are you sure to download?"
+
+msgid "影片無法下載"
+msgstr "Video Cannot Be Downloaded"
+
+msgid "此影片有年齡限制，需要登入才能下載。\n（登入下載功能尚未實現）"
+msgstr "This video is age-restricted and requires login to download.\n(Login download feature not implemented yet)"
+
+msgid "找不到影片"
+msgstr "Video Not Found"
+
+msgid "請確認網址是否正確、該影片是否存在，並重新試一次。"
+msgstr "Please check that the URL is correct, the video exists, and try again."
+
+msgid "找不到格式"
+msgstr "Format Not Found"
+
+msgid "您所選的類型"
+msgstr "The type you selected"
+
+msgid "不存在。"
+msgstr "does not exist."
+
+msgid "下載失敗"
+msgstr "Download Failed"
+
+msgid "錯誤訊息"
+msgstr "Error Message"
+
+msgid "下載成功"
+msgstr "Download Successful"
+
+msgid "影片下載完成！"
+msgstr "Video Download Complete!"
+
+msgid "連線失敗"
+msgstr "Connection Failed"
+
+msgid "請檢查本裝置是否已連線至網路！"
+msgstr "Please check if your device is connected to the internet!"
+
+msgid "類型選擇："
+msgstr "Type:"
+
+msgid "注意事項："
+msgstr "Notice:"
+
+msgid "1.務必確認該影片支援選取之類型。\n2.檔案名稱非必填，預設為原影片於YT之名稱。"
+msgstr "1. Ensure the video supports the type you selected.\n2. File name field is optional, default is the video title on YouTube."
+
+msgid "下載"
+msgstr "Download"
+
+msgid "下載中"
+msgstr "Downloading"
+
+msgid "影片下載中，請稍後..."
+msgstr "Video downloading, please wait..."
+
+msgid "Github Repository"
+msgstr "Github Repository"
+
+msgid "關於"
+msgstr "About"
+
+msgid "檢查更新"
+msgstr "Check for Updates"
+
+msgid "檔案"
+msgstr "File"
+
+msgid "說明"
+msgstr "Help"
+
+msgid "影片網址："
+msgstr "Video Url:"
+
+msgid "檔案名稱："
+msgstr "File Name:"
+
+msgid "版本"
+msgstr "Version"
+
+msgid "發佈時間"
+msgstr "Date"
+
+msgid "新版本已發佈，點擊「是」以更新至最新版本。"
+msgstr "A new version has been released, click 'Yes' to update to the latest version."
+
+msgid "最新版本"
+msgstr "Latest version"
+
+msgid "已經是最新版本！"
+msgstr "You already have the latest version!"
+
+msgid "切換語言"
+msgstr "Change Language"
+
+msgid "語言選擇"
+msgstr "Language"
+
+msgid "選擇語言："
+msgstr "Choose Language:"
+
+msgid "確認"
+msgstr "OK"
+
+msgid "取消"
+msgstr "Cancel"
+
+msgid "贊助YT2file"
+msgstr "Donate"

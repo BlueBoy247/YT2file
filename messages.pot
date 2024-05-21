@@ -1,0 +1,165 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "程式資訊"
+msgstr ""
+
+msgid "更新"
+msgstr ""
+
+msgid "問題回報"
+msgstr ""
+
+msgid "開啟下載資料夾"
+msgstr ""
+
+msgid "結束"
+msgstr ""
+
+msgid "警告"
+msgstr ""
+
+msgid "網址欄尚未輸入!"
+msgstr ""
+
+msgid "選擇下載位置"
+msgstr ""
+
+msgid "確認下載資訊"
+msgstr ""
+
+msgid "下載YT影片名稱"
+msgstr ""
+
+msgid "確定下載?"
+msgstr ""
+
+msgid "影片無法下載"
+msgstr ""
+
+msgid "此影片有年齡限制，需要登入才能下載。\n（登入下載功能尚未實現）"
+msgstr ""
+
+msgid "找不到影片"
+msgstr ""
+
+msgid "請確認網址是否正確、該影片是否存在，並重新試一次。"
+msgstr ""
+
+msgid "找不到格式"
+msgstr ""
+
+msgid "您所選的類型"
+msgstr ""
+
+msgid "不存在。"
+msgstr ""
+
+msgid "下載失敗"
+msgstr ""
+
+msgid "錯誤訊息"
+msgstr ""
+
+msgid "下載成功"
+msgstr ""
+
+msgid "影片下載完成！"
+msgstr ""
+
+msgid "連線失敗"
+msgstr ""
+
+msgid "請檢查本裝置是否已連線至網路！"
+msgstr ""
+
+msgid "類型選擇："
+msgstr ""
+
+msgid "音訊, mp3"
+msgstr ""
+
+msgid "360p, mp4"
+msgstr ""
+
+msgid "480p, mp4"
+msgstr ""
+
+msgid "720p, mp4"
+msgstr ""
+
+msgid "1080p, mp4"
+msgstr ""
+
+msgid "2160p, mp4"
+msgstr ""
+
+msgid "注意事項："
+msgstr ""
+
+msgid "1.務必確認該影片支援選取之類型。\n2.檔案名稱非必填，預設為原影片於YT之名稱。"
+msgstr ""
+
+msgid "下載"
+msgstr ""
+
+msgid "下載中"
+msgstr ""
+
+msgid "影片下載中，請稍後..."
+msgstr ""
+
+msgid "Github Repository"
+msgstr ""
+
+msgid "關於"
+msgstr ""
+
+msgid "檢查更新"
+msgstr ""
+
+msgid "檔案"
+msgstr ""
+
+msgid "說明"
+msgstr ""
+
+msgid "影片網址："
+msgstr ""
+
+msgid "檔案名稱："
+msgstr ""
+
+msgid "版本"
+msgstr ""
+
+msgid "發佈時間"
+msgstr ""
+
+msgid "新版本已發佈，點擊「是」以更新至最新版本。"
+msgstr ""
+
+msgid "最新版本"
+msgstr ""
+
+msgid "已經是最新版本！"
+msgstr ""
+
+msgid "切換語言"
+msgstr ""
+
+msgid "語言選擇"
+msgstr ""
+
+msgid "選擇語言："
+msgstr ""
+
+msgid "確認"
+msgstr ""
+
+msgid "取消"
+msgstr ""
+
+msgid "贊助YT2file"
+msgstr ""
