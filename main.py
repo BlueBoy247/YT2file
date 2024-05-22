@@ -4,7 +4,7 @@
 模組:
     os: 用於操作文件系統，如打開下載目錄和刪除暫存文件。
     sys: 用於重新啟動應用程式以套用語言設置更改。
-    webbrowser: 用於在默認瀏覽器中打開網頁，如 GitHub 頁面和捐贈頁面。
+    webbrowser: 用於在默認瀏覽器中打開網頁，如 GitHub Repository 頁面和 PayPal 贊助頁面。
     threading: 用於創建背景執行緒，如檢查更新和下載 YouTube 影片。
     gettext: 用於應用程式的國際化和本地化，支援多語言界面。
     configparser: 用於讀取和寫入應用程式的配置文件。
@@ -28,7 +28,7 @@ Modules:
         such as opening the download directory and removing temporary files.
     sys: Used to restart the application to apply language settings changes.
     webbrowser: Used to open web pages in the default browser,
-        such as the GitHub page and the donation page.
+        such as the GitHub repository page and the PayPal donation page.
     threading: Used to run tasks in the background,
         such as checking for updates and downloading videos.
     gettext: Used for internationalization and localization of the application,
