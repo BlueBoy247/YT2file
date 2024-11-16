@@ -60,6 +60,9 @@ import requests
 
 LOCALE_DIR = "locale" # 語言文件目錄 Language file directory
 CONFIG_FILE = "config.ini" # config
+ICON_FILE = "icon.ico" # icon
+VIDEO_TEMP_FILE = "video_temp.mp4" # 影片暫存檔 Video temp file
+AUDIO_TEMP_FILE = "audio_temp.mp4" # 音訊暫存檔 Audio temp file
 VERSION = "1.0.0" # 版本 Version
 RELEASE_DATE = "" # 更新日期 Release date
 _ = None # 翻譯 Translation
@@ -153,7 +156,7 @@ def change_language():
     """
     language_window = tk.Toplevel(main_window)
     language_window.title(_("語言選擇"))
-    language_window.iconbitmap("icon.ico")
+    language_window.iconbitmap(ICON_FILE)
     language_window.geometry("250x100")
     language_window.resizable(0, 0)
 
@@ -273,13 +276,14 @@ def info():
         "Copyright © 2024 AllenChang\nAll rights reserved."
     )
 
-def check_update():
+def check_update(show_message=True):
     """
     選單路徑：說明 > 檢查更新
     檢查更新。
 
     參數：
-        None
+        show_message (bool): 
+            是否在版本已經是最新時顯示訊息框。
 
     回傳值:
         None
@@ -288,7 +292,8 @@ def check_update():
     Checks for updates.
 
     Parameters:
-        None
+        show_message (bool): 
+            Whether to show a message box when the version is already up to date.
 
     Returns:
         None
@@ -309,7 +314,7 @@ def check_update():
             )
             if update:
                 webbrowser.open("https://github.com/BlueBoy247/YT2file/releases/latest")
-        else:
+        elif show_message:
             messagebox.showinfo(_("更新"), _("已經是最新版本！"))
 
     threading.Thread(target=checking).start()
@@ -334,7 +339,7 @@ def show_progress_window():
     """
     progress_window = tk.Toplevel(main_window)
     progress_window.title(_("下載中"))
-    progress_window.iconbitmap("icon.ico")
+    progress_window.iconbitmap(ICON_FILE)
     progress_window.geometry("300x100")
     progress_window.resizable(0, 0)
     progress_window.protocol("WM_DELETE_WINDOW", lambda: None)
@@ -387,7 +392,7 @@ def click_download():
     """
     resolution = type_menu.get().split(", ")[0]
 
-    if url.get() == "":
+    if video_url.get() == "":
         messagebox.showwarning(_("警告"), _("網址欄尚未輸入!"))
         return
     pathdir = filedialog.askdirectory(title=_("選擇下載位置"), initialdir="download")
@@ -397,7 +402,7 @@ def click_download():
     def download_video():
         progress_window = None
         try:
-            yt = YouTube(url.get())
+            yt = YouTube(video_url.get())
             if messagebox.askokcancel(_("確認下載資訊"), f"{_('下載YT影片名稱')}:\n{yt.title}\n\n{_('確定下載?')}"):
                 progress_window = show_progress_window()
 
@@ -410,12 +415,12 @@ def click_download():
                         subtype="mp4",
                         res=resolution,
                         progressive=False
-                    ).first().download(output_path=pathdir, filename="video_temp.mp4")
+                    ).first().download(output_path=pathdir, filename=VIDEO_TEMP_FILE)
                     yt.streams.filter(
                         subtype="mp4",
                         type="audio",
                         progressive=False
-                    ).last().download(output_path=pathdir, filename="audio_temp.mp4")
+                    ).last().download(output_path=pathdir, filename=AUDIO_TEMP_FILE)
                     mix(pathdir, file_name)
                 elif resolution == "audio":
                     yt.streams.filter(
@@ -432,19 +437,24 @@ def click_download():
             else:
                 return
         except exceptions.AgeRestrictedError:
-            progress_window.destroy()
+            if progress_window:
+                progress_window.destroy()
             messagebox.showerror(_("影片無法下載"), _("此影片有年齡限制，需要登入才能下載。\n（登入下載功能尚未實現）"))
         except exceptions.RegexMatchError:
-            progress_window.destroy()
+            if progress_window:
+                progress_window.destroy()
             messagebox.showerror(_("找不到影片"), _("請確認網址是否正確、該影片是否存在，並重新試一次。"))
         except AttributeError:
-            progress_window.destroy()
+            if progress_window:
+                progress_window.destroy()
             messagebox.showerror(_("找不到格式"), f"{_('您所選的類型')} ({resolution}) {_('不存在。')}")
         except Exception as e:
-            progress_window.destroy()
+            if progress_window:
+                progress_window.destroy()
             messagebox.showerror(_("下載失敗"), f"{_('錯誤訊息')}: {e}")
         else:
-            progress_window.destroy()
+            if progress_window:
+                progress_window.destroy()
             messagebox.showinfo(_("下載成功"), _("影片下載完成！"))
             os.startfile(pathdir)
     threading.Thread(target=download_video).start()
@@ -471,18 +481,18 @@ def mix(pathdir, file_name):
     """
     try:
         os.chdir(pathdir)
-        video = VideoFileClip("video_temp.mp4")
-        audio = AudioFileClip("audio_temp.mp4")
+        video = VideoFileClip(VIDEO_TEMP_FILE)
+        audio = AudioFileClip(AUDIO_TEMP_FILE)
         output = video.set_audio(audio)
         output.write_videofile(
             f"{file_name}.mp4",
             temp_audiofile="temp_audiofile.mp4",
             remove_temp=True,
         )
-        os.remove("video_temp.mp4")
-        os.remove("audio_temp.mp4")
+        os.remove(VIDEO_TEMP_FILE)
+        os.remove(AUDIO_TEMP_FILE)
     except Exception as e:
-        for temp_file in ["video_temp.mp4", "audio_temp.mp4", "temp_audiofile.mp4"]:
+        for temp_file in [VIDEO_TEMP_FILE, AUDIO_TEMP_FILE, "temp_audiofile.mp4"]:
             if os.path.exists(temp_file):
                 os.remove(temp_file)
         raise e
@@ -508,8 +518,8 @@ main_window.geometry("430x250")
 main_window.resizable(0, 0)
 main_window.title("YT2file")
 main_window["bg"] = "#e0ff2c"
-if os.path.exists("icon.ico"):
-    main_window.iconbitmap("icon.ico")
+if os.path.exists(ICON_FILE):
+    main_window.iconbitmap(ICON_FILE)
 
 
 # 檢查更新 Check for update
@@ -519,13 +529,13 @@ try:
         timeout=5
     ).json()["published_at"]
 except requests.ConnectionError:
-    messagebox.showerror(_("連線失敗"), _("請檢查本裝置是否已連線至網路！"))
-    main_window.destroy()
+    if messagebox.showerror(_("連線失敗"), _("請檢查本裝置是否已連線至網路！")):
+        main_window.destroy()
 else:
-    threading.Thread(target=check_update).start()
+    threading.Thread(target=lambda: check_update(show_message=False)).start()
 
 # 主視窗輸入變數 Variables for main window
-url = tk.StringVar()
+video_url = tk.StringVar()
 download_name = tk.StringVar()
 
 # 選單 Menu
@@ -555,7 +565,7 @@ main_window.config(menu=menu)
 label_url = tk.Label(main_window, text=_("影片網址："), bg="#e0ff2c")
 label_url.grid(column=0, row=0, sticky=tk.W, padx=10, pady=10)
 
-entry_url = tk.Entry(main_window, textvariable=url)
+entry_url = tk.Entry(main_window, textvariable=video_url)
 entry_url.config(width=45)
 entry_url.grid(column=1, row=0, sticky=tk.W, padx=2, pady=10)
 
